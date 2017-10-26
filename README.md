@@ -9,5 +9,5 @@ Mathematical approaches on income/wealth (economic) entries. Predictions, wealth
     # ABOVE INSTRUCTIONS SHOULD BE RUN
     # npm install
     # DEBUG=app:* npm start
-    # visit localhost:3000/api/v1/...
+    # visit localhost:3000 and see what endpoints exists (HATEOAS)
 ```

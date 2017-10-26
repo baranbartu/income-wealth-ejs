@@ -5,7 +5,9 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <h1>REST Endpoints (Dirty HATEOAS)</h1>
+    <p><b>Upload Csv:</b> POST /api/v1/upload-income-and-wealth-csv/ with file name 'csv_file'</p>
+    <p><b>Top10 income/wealth metrics:</b> GET /api/v1/top10/?init=1970&end=1972</p>
+    <p><b>Bottom50 income/wealth metrics:</b> GET /api/v1/bottom50/?init=1970&end=1972</p>
   </body>
 </html>
