@@ -3,8 +3,12 @@ var router = express.Router();
 var serializer = require('../core/serializers');
 var utils = require('../core/utils');
 
-/* GET top10 income/wealth metrics. */
-router.get('/top10', function(req, res, next) {
+
+/**
+ * PS.(Baran) different function syntax from ecmascript 6 lambda/arrow
+ * functions 
+ */
+incomeWealthCommonView = (req, res, sqlQueryTemplate) => {
   // serialize request and return query or and throw error 
   serializer.serializeGetRequest(req.query, function(error, query) {
     // if query does not require necessary things return bad request
@@ -14,9 +18,7 @@ router.get('/top10', function(req, res, next) {
         "error": error,
       }));
     } else {
-      var init = query.init;
-      var end = query.end;
-      var sqlQuery = `SELECT year, income_top10, wealth_top10 from app_incomewealth WHERE year >= ${init} and year <= ${end}`
+      var sqlQuery = utils.strFromTemplate(sqlQueryTemplate, query);
       connection.query(sqlQuery, function(error, results, fields) {
         if (error) {
           // If there is error, we send the error in the 
@@ -35,6 +37,19 @@ router.get('/top10', function(req, res, next) {
       });
     }
   });
+};
+
+/* GET top10 income/wealth metrics. */
+router.get('/top10', function(req, res, next) {
+  sqlQueryTemplate = 'SELECT year, income_top10, wealth_top10 from app_incomewealth WHERE year >= {init} and year <= {end}'
+  return incomeWealthCommonView(req, res, sqlQueryTemplate);
 });
+
+/* GET bottom50 income/wealth metrics. */
+router.get('/bottom50', function(req, res, next) {
+  var sqlQueryTemplate = 'SELECT year, income_bottom50, wealth_bottom50 from app_incomewealth WHERE year >= {init} and year <= {end}'
+  return incomeWealthCommonView(req, res, sqlQueryTemplate);
+});
+
 
 module.exports = router;

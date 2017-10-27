@@ -6,6 +6,19 @@ var _array = require('lodash/array');
 
 exports = module.exports;
 
+/**
+ * PS.(Baran) was not used documentation, i just used here for sample that i can show 
+ *
+ * make string from template and given parameters 
+ * @param {template} like 'foo {foobar} bar' 
+ * @param {vars} like {foobar: 'hello world'}
+ * @return {string} 'foo hello world bar'
+ */
+exports.strFromTemplate = function(template, vars) {
+  return template.replace(new RegExp("\{([^\{]+)\}", "g"), function(_unused, varName) {
+    return vars[varName];
+  });
+};
 
 exports.isInt = function(value) {
   return !isNaN(value) &&
