@@ -45,3 +45,22 @@ exports.commonViewStructure = function(obj) {
     return [commonStructureMapping[key] || key, value];
   }));
 };
+
+exports.groupByValues = function(values) {
+  var valuesFlattenedObj = exports.flattenizeListOfObjects(values);
+  return _collection.map(valuesFlattenedObj, function(value, key) {
+    return value;
+  });
+};
+
+exports.makeMatrixByGroupedValues = function(groupedValues) {
+  return _array.unzip(groupedValues);
+};
+
+exports.avgArray = function(arr) {
+  var total = 0;
+  for (var i = 0; i < arr.length; i++) {
+    total += arr[i];
+  }
+  return total / arr.length;
+};

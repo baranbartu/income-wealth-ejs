@@ -6,8 +6,9 @@
   </head>
   <body>
     <h1>REST Endpoints (Dirty HATEOAS)</h1>
-    <p><b>Upload Csv:</b> POST /api/v1/upload-income-and-wealth-csv/ with file name 'csv_file'</p>
     <p><b>Top10 income/wealth metrics:</b> GET /api/v1/top10/?init=1970&end=1972</p>
     <p><b>Bottom50 income/wealth metrics:</b> GET /api/v1/bottom50/?init=1970&end=1972</p>
+    <p><b>Predict wealth metrics for N years after 2014:</b> POST /api/v1/predictwealth/ - data: {group: 10 || 50, years: N}</p>
+    <p><b>Predict income metrics for N years after 2014:</b> POST /api/v1/predictincome/ - data: {group: 10 || 50, years: N}</p>
   </body>
 </html>

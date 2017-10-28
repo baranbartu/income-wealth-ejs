@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var serializer = require('../core/serializers');
 var utils = require('../core/utils');
+var prediction = require('../core/prediction');
 
 
 /**
@@ -49,6 +50,58 @@ router.get('/top10', function(req, res, next) {
 router.get('/bottom50', function(req, res, next) {
   var sqlQueryTemplate = 'SELECT year, income_bottom50, wealth_bottom50 from app_incomewealth WHERE year >= {init} and year <= {end}'
   return incomeWealthCommonView(req, res, sqlQueryTemplate);
+});
+
+predictCommonView = (req, res, type) => {
+  serializer.serializePredictRequest(req.body, type, function(error, query) {
+    if (error) {
+      res.send(JSON.stringify({
+        "status": 400,
+        "error": error,
+      }));
+    } else {
+      var sql = query.sqlForTrainingData;
+      var years = query.years;
+      var group = query.group;
+
+      connection.query(sql, function(error, results, fields) {
+        if (error) {
+          res.send(JSON.stringify({
+            "status": 500,
+            "error": error
+          }));
+        } else {
+          prediction.train(results, function(a, b) {
+
+            var predictedData = [];
+            for (var i = 1; i <= years; i++) {
+              var year = 2014 + i;
+              predictedValue = a * year + b;
+              predictedData.push(predictedValue);
+            }
+
+            res.send(JSON.stringify({
+              'data': {
+                Group: group,
+                prediction: predictedData
+              },
+            }));
+
+          });
+        }
+      });
+    }
+  });
+};
+
+/* POST predict wealth metrics after 2014 for N years. */
+router.post('/predictwealth', function(req, res, next) {
+  return predictCommonView(req, res, 'wealth');
+});
+
+/* POST predict income metrics after 2014 for N years. */
+router.post('/predictincome', function(req, res, next) {
+  return predictCommonView(req, res, 'income');
 });
 
 
