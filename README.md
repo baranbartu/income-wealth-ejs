@@ -9,6 +9,7 @@ Mathematical approaches on income/wealth (economic) entries. Predictions, wealth
     # ABOVE INSTRUCTIONS SHOULD BE RUN
     # npm install
     # initialize database and dump data: run 'gulp'
+    # gulp note: after finishing tasks, interrupt the hanged process by ctrl+c (i don't know why hanging)
     # DEBUG=app:* npm start
     # visit localhost:3000 and see what endpoints exists (HATEOAS)
 ```
